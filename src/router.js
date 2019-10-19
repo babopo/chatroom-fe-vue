@@ -1,6 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+
+// 登陆页面组件
+import home from './views/home.vue'
+import login from './views/login.vue'
+import register from './views/register.vue'
+import index from './views/index.vue'
+import about from './views/about.vue'
+
+// 聊天室页面组件
+import chatRoom from './views/chatRoom.vue'
+import chat from './views/chatPage/chat.vue'
+import settings from './views/chatPage/settings.vue'
+
+import notFound from './views/404.vue'
 
 Vue.use(Router)
 
@@ -8,16 +21,49 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/home',
+    },
+    {
+      path: '/home',
+      component: home,
+      children: [
+        {
+          path: 'login',
+          component: login,
+        },
+        {
+          path: 'register',
+          component: register,
+        },
+        {
+          path: 'index',
+          component: index,
+          alias: '/'
+        }
+      ]
     },
     {
       path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: about,
+    },
+    {
+      path: '/chat-room/:username',
+      component: chatRoom,
+      props: true,
+      children: [
+        {
+          path: '/',
+          component: chat,
+        },
+        {
+          path: 'settings',
+          component: settings,
+        }
+      ],
+    },
+    {
+      path: '*',
+      component: notFound,
     }
   ]
 })
