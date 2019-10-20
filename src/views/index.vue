@@ -50,19 +50,18 @@
                 leon.draw(ctx);
             }
 
-            window.onload = () => {
-                init();
-                let i, total = leon.drawing.length;
-                for (i = 0; i < total; i++) {
-                    TweenMax.fromTo(leon.drawing[i], 1.6, {
-                        value: 0
-                    }, {
-                        delay: i * 0.05,
-                        value: 1,
-                        ease: Power4.easeOut
-                    });
-                }
-            };
+            //渲染并执行动画
+            init();
+            let i, total = leon.drawing.length;
+            for (i = 0; i < total; i++) {
+                TweenMax.fromTo(leon.drawing[i], 1.6, {
+                    value: 0
+                }, {
+                    delay: i * 0.05,
+                    value: 1,
+                    ease: Power4.easeOut
+                });
+            }
         }
     }
 </script>
