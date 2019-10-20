@@ -2,6 +2,9 @@
     <canvas id="welcome"></canvas>
 </template>
 <script>
+    //动画字体需要的资源
+    import '@/assets/leon.js'
+    import '@/assets/TweenMax.js'
     export default {
         mounted() {
             let leon, canvas, ctx, sw, sh;

@@ -1,12 +1,14 @@
 <template>
-    <el-tabs v-model="editableTabsValue" tab-position="left" type="border-card" closable @edit="handleTabsEdit">
+    <el-tabs v-model="currentTab" tab-position="left" type="border-card" @tab-remove="removeTab">
         <el-tab-pane
-            :key="item.name"
-            v-for="item in editableTabs"
+            :key="item.room"
+            v-for="item in tabs"
             :label="item.title"
-            :name="item.name"
+            :name="item.room"
+            :closable="item.room === '1' ? false : true"
+            lazy
         >
-            <chatMsg></chatMsg>
+            <chatMsg :room="item.room"></chatMsg>
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -18,44 +20,41 @@
         name: 'present',
         data() {
             return {
-                editableTabsValue: '2',
-                editableTabs: [{
-                title: 'Tab 1',
-                name: '1',
-                content: 'Tab 1 content'
-                }, {
-                title: 'Tab 2',
-                name: '2',
-                content: 'Tab 2 content'
-                }],
-                tabIndex: 2
+                currentTab: '1'
             };
         },
+        computed: {
+            tabs()  {
+                return this.$store.state.msgsAll
+            }
+        },
+        watch: {
+            currentTab: {
+                // 变化时改变store中的对应值，因为输入框组件需要知道向哪个room发送信息
+                handler: function(val) {
+                    // 第一个参数为新值
+                    this.$store.commit('setCurrentTab', val)
+                },
+                immediate: true
+            }
+        },
         methods: {
-            handleTabsEdit(targetName, action) {
-                if (action === 'remove') {
-                    let tabs = this.editableTabs;
-                    let activeName = this.editableTabsValue;
-                    if (activeName === targetName) {
-                        tabs.forEach((tab, index) => {
-                            if (tab.name === targetName) {
-                                let nextTab = tabs[index + 1] || tabs[index - 1];
-                                if (nextTab) {
-                                activeName = nextTab.name;
-                                }
-                            }
-                        });
-                    }
-                
-                    this.editableTabsValue = activeName;
-                    this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-                }
+            removeTab(targetName) {
+                this.$store.commit('remove', targetName)
+                this.currentTab = this.$store.getters.lastRoom
+                // 绑定当前显示的是最后一个标签页
             }
         },
         components: { chatMsg },
+        mounted() {
+            const msgBox = document.querySelector('.el-tabs__content')
+            msgBox.scrollTop = msgBox.scrollHeight - msgBox.clientHeight
+        },
     }
 </script>
 
-<style lang="stylus" scoped>
-
+<style lang="stylus">
+    .el-tabs--border-card>.el-tabs__content
+        overflow auto
+        height 100%
 </style>
