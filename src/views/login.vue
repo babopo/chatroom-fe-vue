@@ -1,14 +1,14 @@
 <template>
-    <el-form :model="Register" status-icon :rules="rules" ref="Register" label-width="80px" class="form">
+    <el-form :model="Login" status-icon :rules="rules" ref="Login" label-width="80px" class="form">
       <el-form-item label="用户名" prop="username" required>
-        <el-input v-model="Register.username"></el-input>
+        <el-input v-model="Login.username"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pass" required>
-        <el-input type="password" v-model="Register.pass" :show-password="true"></el-input>
+        <el-input type="password" v-model="Login.pass" :show-password="true"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('Register')">登陆</el-button>
-        <el-button @click="resetForm('Register')">重置</el-button>
+        <el-button type="primary" @click="submitForm('Login')">登陆</el-button>
+        <el-button @click="resetForm('Login')">重置</el-button>
       </el-form-item>
     </el-form>
 </template>
@@ -39,14 +39,14 @@
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.Register.checkPass !== '') {
-            this.$refs.Register.validateField('checkPass');
+          if (this.Login.checkPass !== '') {
+            this.$refs.Login.validateField('checkPass');
           }
           callback();
         }
       };
       return {
-        Register: {
+        Login: {
           username: '',
           pass: '',
         },
@@ -64,14 +64,24 @@
       submitForm(formName) {
 
         this.$refs[formName].validate(async (valid) => {
-          // console.log(valid)
           if (valid) {
             //提交
-            const res = await api.post('posts/', this.gatherData())
-            console.log('yeah', res)
-            this.$router.push({
-                path: `/chat-room/${res.data.id}`,
-            })
+            const res = await api.post('login', this.gatherData())
+            if(res.data.code) {
+              // 设置当前用户
+              this.$store.commit('setCurrentUser', this.Login.username)
+              this.$router.push({
+                  path: `/chat-room/${this.Login.username}`,
+              })
+            } else {
+              // 登陆失败
+              this.$notify({
+                  title: '登陆失败',
+                  message: '用户名或密码错误',
+                  type: 'error',
+                  duration: 2000,
+              })
+            }
           } else {
             console.log('error submit!!');
             return false;
@@ -83,8 +93,8 @@
       },
       gatherData() {
         const data = new FormData();
-        data.append('username', this.Register.username)
-        data.append('pass', this.Register.pass)
+        data.append('username', this.Login.username)
+        data.append('password', this.Login.pass)
         return data
       },
     }

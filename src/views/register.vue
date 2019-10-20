@@ -92,8 +92,22 @@
           // console.log(valid)
           if (valid) {
             //提交
-            const res = await api.post('posts/', this.gatherData())
-            console.log('yeah', res)
+            const res = await api.post('register', this.gatherData())
+            if(res.data.code) {
+              // 设置当前用户
+              this.$store.commit('setCurrentUser', this.Register.username)
+              this.$router.push({
+                  path: `/chat-room/${this.Register.username}`,
+              })
+            } else {
+              // 注册失败
+              this.$notify({
+                  title: '注册失败',
+                  message: '用户名已存在',
+                  type: 'error',
+                  duration: 2000,
+              })
+            }
           } else {
             console.log('error submit!!');
             return false;
@@ -106,7 +120,7 @@
       gatherData() {
         const data = new FormData();
         data.append('username', this.Register.username)
-        data.append('pass', this.Register.pass)
+        data.append('password', this.Register.pass)
         data.append('email', this.Register.email)
 
         return data
