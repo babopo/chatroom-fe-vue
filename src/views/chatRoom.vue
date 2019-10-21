@@ -25,14 +25,21 @@
         props: ['username'],
         data() {
             return {
-                user: this.username
-                // 保存一下路由的参数，因为子路由会用到
+
             }
         },
         components: {
             headBar,
+        },
+        sockets: {
+            connect() {
+                console.log(1)
+            }
+        },
+        mounted() {
+            this.$socket.emit('join', this.username)
         }
-    }
+    };
 </script>
 
 <style lang="stylus">

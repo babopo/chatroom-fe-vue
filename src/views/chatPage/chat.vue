@@ -1,10 +1,15 @@
 <template>
-    <div class="wrap">
-        <div class="left">
-            <present class="present"></present>
-            <inputBox class="inputBox"></inputBox>
+    <div class="all">
+        <div class="wrap">
+            <div class="left">
+                <present class="present"></present>
+                <inputBox class="inputBox"></inputBox>
+            </div>
+            <right class="right" v-show="show"></right>
         </div>
-        <right class="right"></right>
+        <el-tooltip content="切换显示在线用户" placement="top">
+            <el-button type="primary" :icon="show ? 'el-icon-arrow-right' : 'el-icon-arrow-left'" @click="folder" class="folder" circle/>
+        </el-tooltip>
     </div>
 </template>
 
@@ -17,7 +22,7 @@ import right from '@/components/right.vue'
     export default {
         data() {
             return {
-
+                show: false
             }
         },
         components: { present, inputBox, right },
@@ -34,14 +39,19 @@ import right from '@/components/right.vue'
                     duration: 2000,
                 })
             }, 1000)
-        }
+        },
+        methods: {
+            folder() {
+                this.show = !this.show
+            }
+        },
     }
 </script>
 
 <style lang="stylus" scoped>
     //因为父元素设定了flex
     .wrap
-        width 100%
+        height 100%
         display flex
     .left
         flex 4
@@ -53,7 +63,18 @@ import right from '@/components/right.vue'
         flex 3
     .inputBox
         flex 1
-    
+    .all
+        position relative
+        width 100%
+    .folder
+        position absolute
+        z-index 100
+        top 50%
+        right 20px
+        transform translateY(-50%)
+        opacity .4
+        &:hover
+            opacity 1
 </style>
 
 

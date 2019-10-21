@@ -3,11 +3,12 @@
         <div slot="header" class='header'>
             <span>在线用户</span>
         </div>
-        <div class="info" v-for="user in users" :key="user" @click="addTab(user)">
-            <el-avatar class="avatar" size="small" :src="`https://api.adorable.io/avatars/100/${user}.png`" @error="errorHandle" :alt="user">
-                <img :src="`https://api.adorable.io/avatars/100/${user}.png`" :alt="user"/>
-            </el-avatar>
-            <span class="userName">{{user}}</span>
+        <div class="info" v-for="user in users" :key="user.name" @click="addTab(user.name)">
+            <el-tooltip :content="user.name" placement="top">
+                <el-avatar class="avatar" size="small" :src="`https://api.adorable.io/avatars/100/${user.name}.png`" @error="errorHandle" :alt="user.name">
+                    <img :src="`https://api.adorable.io/avatars/100/${user.name}.png`" :alt="user.name"/>
+                </el-avatar>
+            </el-tooltip>
         </div>
     </el-card>
 </template>
@@ -18,7 +19,7 @@
         name: 'right',
         data() {
             return {
-            
+
             };
         },
         computed: {
@@ -33,14 +34,15 @@
             },
             addTab(user) {
                 this.$store.commit('add', user)
-            }
+            },
         }
     }
 </script>
 
 <style lang="stylus" scoped>
     .info
-        margin-bottom 8px
+        display inline-block
+        margin 8px
         cursor: pointer
     .avatar
         vertical-align middle
@@ -48,5 +50,5 @@
         margin-left 10px
         vertical-align middle
     .header
-        font-size 14px
+        font-size 1rem
 </style>

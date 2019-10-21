@@ -54,7 +54,8 @@
 </script>
 
 <style lang="stylus">
-    .el-tabs--border-card>.el-tabs__content
+    div.el-tabs--border-card>.el-tabs__content
         overflow auto
         height 100%
+        padding 0
 </style>

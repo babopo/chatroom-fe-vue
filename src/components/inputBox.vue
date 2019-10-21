@@ -42,10 +42,23 @@
                 }
             };
         },
+        computed: {
+            roomID() {
+-----
+-----
+                return this.$store.currentTab
+            },
+            currentUser() {
+                return this.$store.currentUser
+            },
+        },
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate(valid => {
                     if(valid) {
+                        // 这里需要触发socket.io事件，并将自己的输入提交到store
+                        console.log(this.roomID, this.currentUser)
+                        this.$socket.emit('privateChat', this.roomID, this.currentUser, this.inputBox.message)
                         this.$store.commit('send', this.inputBox.message)
                         this.$refs[formName].resetFields()
                     } else {
@@ -53,6 +66,8 @@
                     }
                 })
             },
+------
+----
             clear(formName) {
                 this.$refs[formName].resetFields()
             }

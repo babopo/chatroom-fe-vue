@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    users: ['test', 'harry', 'sb'],
+    users: [],
     msgsAll: [
       {
         title: '公共区域',
@@ -51,8 +51,9 @@ export default new Vuex.Store({
         ]
       },
     ],
+    // 存储的实际上是当前聊天对象的id
     currentTab: '1',
-    currentUser: 'admin',
+    currentUser: '',
   },
   getters: {
     // 获取最后一个标签页的id
@@ -62,20 +63,25 @@ export default new Vuex.Store({
     // 根据roomId获取聊天对象用户名
     chatName(state, room) {
       return state.msgsAll.find(it => it.room === room).title
-    } 
+    },
+    getID(state, name) {
+      // 根据用户名查找id
+      return state.users.find(it => it.name === name).id
+    },
   },
   mutations: {
     remove(state, room) {
       // 删除指定的标签页
       state.msgsAll = state.msgsAll.filter(item => item.room !== room)
     },
-    add(state, user) {
+    add(state, name) {
       //根据用户名添加标签页
-      const added = state.msgsAll.find(item => item.title === user)
+      const added = state.msgsAll.find(item => item.title === name)
       if(!added) {
+        const user = state.users.find(it => it.name === name)
         state.msgsAll.push({
-          title: user,
-          room: +state.msgsAll[state.msgsAll.length - 1].room + 1 + '',
+          title: user.name,
+          room: user.id,
           msgs: [],
         })
       } 
@@ -95,8 +101,21 @@ export default new Vuex.Store({
         content: msg
       })
     },
+    //websocket相关
+    SOCKET_usersOL(state, users) {
+      state.users = users
+    },
+    SOCKET_newer(state, user) {
+      state.users.push(user)
+    },
+    SOCKET_privateChat(state, msg) {
+      // 这个只能收到对方发的，自己发的应该在表单提交时直接插入
+      state.msgsAll.find(it => it.title === msg.user).msgs.push(msg)
+    },
+    SOCKET_openChat(state, msg) {
+      state.msgsAll.find(it => it.room === '1').msgs.push(msg)
+    }
   },
   actions: {
-
   }
 })
