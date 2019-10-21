@@ -7,7 +7,7 @@
                 <p class="info">
                     <span><b>{{msg.user === currentUser ? `你(${msg.user})` : msg.user}}</b>{{' ' + new Date(msg.timeStamp).toLocaleTimeString()}}</span>
                 </p>
-                <span class="message">{{msg.content}}</span>
+                <bubble :msg="msg.content"/>
             </div>
         </el-row>
     </div>
@@ -15,6 +15,7 @@
 
 <script>
     import api from '@/api.js'
+    import bubble from '@/components/bubble.vue'
     export default {
         name: 'chatMsg',
         props: ['room'],
@@ -30,6 +31,9 @@
             currentUser() {
                 return this.$store.state.currentUser
             },
+        },
+        components: {
+            bubble
         },
         updated() {
             const msgBox = document.querySelector('.el-tabs__content')
@@ -47,4 +51,5 @@
         margin 0 5px
     .info
         margin 0
+        font-size .8rem
 </style>
