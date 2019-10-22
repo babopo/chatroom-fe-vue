@@ -85,7 +85,9 @@ export default new Vuex.Store({
       state.users = users.filter(it => it.name !== state.currentUser)
     },
     SOCKET_newer(state, user) {
-      state.users.push(user)
+      if(user !== state.currentUser) {
+        state.users.push()
+      }
     },
     SOCKET_privateChat(state, msg) {
       // 这个只能收到对方发的，自己发的应该在表单提交时直接插入
