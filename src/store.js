@@ -16,16 +16,6 @@ export default new Vuex.Store({
             timeStamp: 123,
             content: 'hello world',
           },
-          {
-            user: 'sb',
-            timeStamp: 123345,
-            content: 'heihei',
-          },
-          {
-            user: 'harry',
-            timeStamp: 125467563,
-            content: 'haha',
-          },
         ]
       },
       {
@@ -35,19 +25,8 @@ export default new Vuex.Store({
           {
             user: 'test',
             timeStamp: 123,
-            content: 'hello admin',
+            content: 'hello user',
           },
-        ]
-      },
-      {
-        title: 'harry',
-        room: '3',
-        msgs: [
-          {
-            user: 'harry',
-            timeStamp: 123,
-            content: 'hello nmb',
-          }
         ]
       },
     ],
@@ -92,27 +71,41 @@ export default new Vuex.Store({
     setCurrentUser(state, user) {
       state.currentUser = user
     },
-    //以下为测试用
     send(state, msg) {
+      //将本地发送的信息加入store
       const currentRoom = state.msgsAll.find(it => it.room === state.currentTab).msgs
+      console.log(msg)
       currentRoom.push({
         user: state.currentUser,
         timeStamp: Date.now(),
-        content: msg
+        content: msg,
       })
     },
     //websocket相关
     SOCKET_usersOL(state, users) {
-      state.users = users
+      state.users = users.filter(it => it.name !== state.currentUser)
     },
     SOCKET_newer(state, user) {
       state.users.push(user)
     },
     SOCKET_privateChat(state, msg) {
       // 这个只能收到对方发的，自己发的应该在表单提交时直接插入
-      state.msgsAll.find(it => it.title === msg.user).msgs.push(msg)
+      const opened = state.msgsAll.find(it => it.title === msg.user)
+      if(opened) {
+        opened.msgs.push(msg)
+      } else {
+        // 要先创建房间
+        // 先根据用户名找到用户id
+        const id = state.users.find(it => it.name === msg.user).id
+        state.msgsAll.push({
+          title: msg.user,
+          room: id,
+          msgs: [msg]
+        })
+      }
     },
     SOCKET_openChat(state, msg) {
+      console.log(msg)
       state.msgsAll.find(it => it.room === '1').msgs.push(msg)
     }
   },
