@@ -68,8 +68,7 @@
             //提交
             const res = await api.post('login', this.gatherData())
             if(res.data.code) {
-              // 设置当前用户
-              this.$store.commit('setCurrentUser', this.Login.username)
+              // 跳转至聊天室
               this.$router.push({
                   path: `/chat-room/${this.Login.username}`,
               })

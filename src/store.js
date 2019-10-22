@@ -74,7 +74,6 @@ export default new Vuex.Store({
     send(state, msg) {
       //将本地发送的信息加入store
       const currentRoom = state.msgsAll.find(it => it.room === state.currentTab).msgs
-      console.log(msg)
       currentRoom.push({
         user: state.currentUser,
         timeStamp: Date.now(),

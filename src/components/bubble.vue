@@ -15,7 +15,7 @@
 </script>
 
 
-<style lang="stylus"scoped>
+<style lang="stylus" scoped>
 
     .bubBody
         float left

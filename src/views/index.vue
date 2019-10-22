@@ -29,7 +29,7 @@
                 ctx.scale(pixelRatio, pixelRatio);
 
                 leon = new LeonSans({
-                    text: 'Hello\nBiAtch',
+                    text: 'Chat\nRoom\n2.0',
                     color: ['#000000'],
                     size: 80,
                     weight: 200

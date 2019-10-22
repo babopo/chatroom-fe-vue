@@ -32,13 +32,13 @@
             headBar,
         },
         sockets: {
-            connect() {
-                console.log(1)
-            }
+
         },
         mounted() {
+            // 在这里设置当前用户，防止经过路由首页的直接跳转而使当前用户为空，也减少了登陆和注册页的重复代码
+            this.$store.commit('setCurrentUser', this.username)
             this.$socket.emit('join', this.username)
-        }
+        },
     };
 </script>
 

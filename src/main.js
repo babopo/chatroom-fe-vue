@@ -7,6 +7,7 @@ import VueSocketIO from 'vue-socket.io'
 
 Vue.config.productionTip = false
 
+// websocket连接
 Vue.use(new VueSocketIO({
   connection: "http://localhost",
   vuex: {

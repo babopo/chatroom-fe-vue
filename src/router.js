@@ -15,9 +15,12 @@ import settings from './views/chatPage/settings.vue'
 
 import notFound from './views/404.vue'
 
+// 导航守卫需要发送ajax
+import api from '@/api.js'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -67,3 +70,38 @@ export default new Router({
     }
   ]
 })
+
+// 导航守卫
+// 防止直接打开聊天室页
+router.beforeEach( async (to, from, next) => {
+  if(/chat-room/.test(to.fullPath)) {
+    // 验证cookie
+    const res = (await api.get('verify')).data
+    if(res.code === 0 || to.params.username !== res.name) {
+      // 验证失败跳转至404
+      next('/404')
+      // router.push('/404')
+    } else {
+      next()
+    }
+  } else {
+    // 不能同一次逻辑中调两次next，因为next()表示确认跳转
+    next()
+  }
+})
+
+//已登陆过打开首页直接跳转至聊天室页
+router.beforeEach( async (to, from, next) => {
+  if(/home/.test(to.fullPath)) {
+    // 验证cookie
+    const res = (await api.get('verify')).data
+    if(res.code === 1) {
+      // 验证成功跳转至聊天室
+      next(`/chat-room/${res.name}`)
+    }
+  }
+  next()
+})
+
+
+export default router
