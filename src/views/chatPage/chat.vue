@@ -10,6 +10,9 @@
         <el-tooltip content="切换显示在线用户" placement="top">
             <el-button type="primary" :icon="show ? 'el-icon-arrow-right' : 'el-icon-arrow-left'" @click="folder" class="folder" circle/>
         </el-tooltip>
+        <el-tooltip content="注销登陆" placement="top">
+            <el-button type="danger" icon="el-icon-circle-close" @click="logout" class="logout" circle/>
+        </el-tooltip>
     </div>
 </template>
 
@@ -18,6 +21,8 @@
 import present from '@/components/present.vue'
 import inputBox from '@/components/inputBox.vue'
 import right from '@/components/right.vue'
+
+import api from '@/api.js'
 
     export default {
         data() {
@@ -43,6 +48,10 @@ import right from '@/components/right.vue'
         methods: {
             folder() {
                 this.show = !this.show
+            },
+            logout() {
+                api.get('logout')
+                this.$router.push('/')
             }
         },
     }
@@ -72,6 +81,14 @@ import right from '@/components/right.vue'
         top 50%
         right 20px
         transform translateY(-50%)
+        opacity .4
+        &:hover
+            opacity 1
+    .logout
+        position absolute
+        z-index 100
+        top 55%
+        right 20px
         opacity .4
         &:hover
             opacity 1

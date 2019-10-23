@@ -106,7 +106,7 @@ export default new Vuex.Store({
       }
     },
     SOCKET_openChat(state, msg) {
-      console.log(msg)
+      // console.log(msg)
       state.msgsAll.find(it => it.room === '1').msgs.push(msg)
     }
   },

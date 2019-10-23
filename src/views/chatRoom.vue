@@ -39,6 +39,10 @@
             this.$store.commit('setCurrentUser', this.username)
             this.$socket.emit('join', this.username)
         },
+        beforeDestroy () {
+            // 组件销毁时假装断开连接
+            this.$socket.emit('leave', this.username)
+        }
     };
 </script>
 
