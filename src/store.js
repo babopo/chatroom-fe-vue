@@ -86,7 +86,7 @@ export default new Vuex.Store({
     },
     SOCKET_newer(state, user) {
       if(user !== state.currentUser) {
-        state.users.push()
+        state.users.push(user)
       }
     },
     SOCKET_privateChat(state, msg) {

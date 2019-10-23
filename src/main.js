@@ -13,9 +13,6 @@ Vue.use(new VueSocketIO({
   vuex: {
     store,
     mutationPrefix: 'SOCKET_',
-    options: {
-      path: '/chat-room/'
-    },
   }
 }))
 
