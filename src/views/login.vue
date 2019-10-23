@@ -9,6 +9,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('Login')">登陆</el-button>
         <el-button @click="resetForm('Login')">重置</el-button>
+        <el-button @click="redirect">忘记密码</el-button>
       </el-form-item>
     </el-form>
 </template>
@@ -82,7 +83,6 @@
               })
             }
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -96,6 +96,10 @@
         data.append('password', this.Login.pass)
         return data
       },
+      redirect() {
+        // 跳转至忘记密码页
+        this.$router.push('/forget')
+      }
     }
   }
 </script>

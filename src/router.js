@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// 登陆页面组件
+// 账户相关页面组件
 import home from './views/home.vue'
 import login from './views/login.vue'
+import forget from './views/forget.vue'
+import passwordChanging from './views/passwordChanging.vue'
 import register from './views/register.vue'
 import index from './views/index.vue'
 import about from './views/about.vue'
@@ -44,6 +46,14 @@ const router = new Router({
           alias: '/'
         }
       ]
+    },
+    {
+      path: '/forget',
+      component: forget,
+    },
+    {
+      path: '/passwordChanging/:token',
+      component: passwordChanging,
     },
     {
       path: '/about',
