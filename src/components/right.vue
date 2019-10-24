@@ -40,11 +40,7 @@
         display inline-block
         margin 8px
         cursor: pointer
-    .avatar
-        vertical-align middle
-    .userName
-        margin-left 10px
-        vertical-align middle
+
     .header
         font-size 1rem
 </style>

@@ -12,7 +12,7 @@
         props: {
             user: String,
             size: {
-                type: String,
+                type: [String, Number],
                 default: 'small'
             }
         },
@@ -25,7 +25,7 @@
             // 数据结构没设计好，只能在组件创建的时候单独发ajax查询了
             const username = new FormData()
             username.append('username', this.user)
-            this.avatarPath = (await api.post('avatar', username)).data            
+            this.avatarPath = (await api.post('avatar', username)).data    
         },
         methods: {
             errorHandle() {
@@ -35,4 +35,10 @@
         },
     }
 </script>
+
+<style lang="stylus" scoped>
+    .avatar
+        vertical-align middle
+        margin-right 5px
+</style>
 
