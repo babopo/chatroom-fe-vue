@@ -110,6 +110,7 @@
                                 duration: 2000,
                             })
                         }
+                        this.resetForm(formName)
                     } else {
                         return false
                     }
@@ -125,6 +126,7 @@
                 const data = new FormData();
                 data.append('method', this.Forget.method)
                 data.append('val', this.Forget.val)
+                data.append('password', this.Forget.pass)
                 return data
             },
         },

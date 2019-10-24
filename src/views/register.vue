@@ -103,7 +103,7 @@
               // 注册失败
               this.$notify({
                   title: '注册失败',
-                  message: '用户名已存在',
+                  message: '用户名或邮箱已存在',
                   type: 'error',
                   duration: 2000,
               })
