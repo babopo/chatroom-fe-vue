@@ -2,7 +2,7 @@
     <div>
         <!-- <p v-for="msg in msgs" :key="msg.timeStamp">{{msg.user + ' ' + new Date(msg.timeStamp).toString() + ' ' + msg.content}}</p> -->
         <el-row class="row" v-for="msg in msgs" :key="msg.timeStamp">
-            <el-avatar class="block" size="small" :src="`https://api.adorable.io/avatars/100/${msg.user}.png`"></el-avatar>
+            <avatar :user="msg.user"></avatar>
             <div class="block">
                 <p class="info">
                     <span><b>{{msg.user === currentUser ? `你(${msg.user})` : msg.user}}</b>{{' ' + new Date(msg.timeStamp).toLocaleTimeString()}}</span>
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-    import api from '@/api.js'
     import bubble from '@/components/bubble.vue'
+    import avatar from '@/components/avatar.vue'
     export default {
         name: 'chatMsg',
         props: ['room'],
@@ -33,7 +33,8 @@
             },
         },
         components: {
-            bubble
+            bubble,
+            avatar
         },
         updated() {
             const msgBox = document.querySelector('.el-tabs__content')

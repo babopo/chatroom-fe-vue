@@ -12,18 +12,34 @@ export default new Vuex.Store({
         room: '1',
         msgs: [
           {
-            user: 'test',
+            user: 'robot1',
             timeStamp: 123,
+            content: 'hello world',
+          },
+          {
+            user: 'robot2',
+            timeStamp: 456,
             content: 'hello world',
           },
         ]
       },
       {
-        title: 'test',
+        title: 'robot1',
         room: '2',
         msgs: [
           {
-            user: 'test',
+            user: 'robot1',
+            timeStamp: 123,
+            content: 'hello user',
+          },
+        ]
+      },
+      {
+        title: 'robot2',
+        room: '3',
+        msgs: [
+          {
+            user: 'robot2',
             timeStamp: 123,
             content: 'hello user',
           },

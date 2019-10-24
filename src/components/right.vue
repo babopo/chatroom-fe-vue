@@ -5,9 +5,7 @@
         </div>
         <div class="info" v-for="user in users" :key="user.name" @click="addTab(user.name)">
             <el-tooltip :content="user.name" placement="top">
-                <el-avatar class="avatar" size="small" :src="`https://api.adorable.io/avatars/100/${user.name}.png`" @error="errorHandle" :alt="user.name">
-                    <img :src="`https://api.adorable.io/avatars/100/${user.name}.png`" :alt="user.name"/>
-                </el-avatar>
+                <avatar :user="user.name"></avatar>
             </el-tooltip>
         </div>
     </el-card>
@@ -15,8 +13,10 @@
 
 <script>
 // 展示在线用户，点击头像私聊，在左栏加入私聊标签
+    import avatar from '@/components/avatar.vue'
     export default {
         name: 'right',
+        components: { avatar },
         data() {
             return {
 
@@ -28,10 +28,6 @@
             }
         },
         methods: {
-            errorHandle() {
-                // 加载失败时启用备用图片
-                return true
-            },
             addTab(user) {
                 this.$store.commit('add', user)
             },

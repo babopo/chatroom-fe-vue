@@ -32,18 +32,7 @@ import api from '@/api.js'
         },
         components: { present, inputBox, right },
         mounted() {
-            this.$notify({
-                title: '提示1',
-                message: '左侧标签栏切换当前聊天页',
-                duration: 2000,
-            })
-            setTimeout(() => {
-                this.$notify({
-                    title: '提示2',
-                    message: '右侧标签栏点击头像打开私聊',
-                    duration: 2000,
-                })
-            }, 1000)
+
         },
         methods: {
             folder() {
