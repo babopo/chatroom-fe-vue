@@ -49,6 +49,7 @@ export default new Vuex.Store({
     // 存储的实际上是当前聊天对象的id
     currentTab: '1',
     currentUser: '',
+    twLoaded: false,
   },
   getters: {
     // 获取最后一个标签页的id
@@ -65,6 +66,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    loadTW(state) {
+      state.twLoaded = true
+    },
     remove(state, room) {
       // 删除指定的标签页
       state.msgsAll = state.msgsAll.filter(item => item.room !== room)

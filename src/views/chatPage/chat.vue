@@ -40,7 +40,9 @@ import api from '@/api.js'
             },
             logout() {
                 api.get('logout')
-                this.$router.push('/')
+                // this.$router.push('/')
+                // 这里要强制刷新页面，否则登陆账号会保留上一个账号的消息记录
+                window.location.href = '/'
             }
         },
     }

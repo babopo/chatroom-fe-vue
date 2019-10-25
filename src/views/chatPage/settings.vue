@@ -1,7 +1,7 @@
 <template>
     <div class="set-container">
         <el-card class="av-container">
-            <avatar :user="user" :size="size"></avatar>
+            <avatar :user="user" v-if="refresh" :size="size" @click="resetAV"></avatar>
             <el-upload
                 class="upload"
                 drag
@@ -10,7 +10,7 @@
                 name='avatar'
                 :show-file-list="false"
                 :on-success="uploadSuccess"
-                action="http://chat-vue.limbotech.top/api/settings/upload">
+                action="http://chat-vue.limbotech.top:8000/api/settings/upload">
                 <i class="el-icon-upload2"></i>
             </el-upload>
             <p class='tips'>右侧拖拽或点击上传,图片将被自动裁剪至合适大小</p>
@@ -80,6 +80,7 @@
                     email: [{ type: 'email', message: "请输入正确的邮箱", trigger: ['blur', 'change'] }],
                 },
                 size: 100,
+                refresh: true,
             }
         },
         methods: {
@@ -100,13 +101,13 @@
                 })
             },
             resetForm(formName) {
-                this.$refs[formName].resetForm()
+                this.$refs[formName].resetFields()
             },
             gatherData() {
                 const data = new FormData()
                 for(const item in this.Settings) {
                     if(this.Settings[item] !== '') {
-                        data.append(item, his.Settings[item])
+                        data.append(item, this.Settings[item])
                     }
                 }
                 data.append('username', this.user)
@@ -114,19 +115,26 @@
             },
             uploadSuccess(res) {
                 this.size = 100
-                if(res.data.code) {
+                if(res.code) {
                     this.$notify({
                         type: 'success',
-                        message: res.data.msg,
+                        message: res.msg,
                         duration: 2000
                     })
                 } else {
                     this.$notify({
-                        type: 'erroe',
-                        message: res.data.msg,
+                        type: 'error',
+                        message: res.msg,
                         duration: 2000
                     })
                 }
+                this.resetAV()
+            },
+            resetAV() {
+                this.refresh = false 
+                this.$nextTick(() => {
+                    this.refresh = true
+                })
             }
         }
     }

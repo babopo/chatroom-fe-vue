@@ -8,7 +8,15 @@
 
 export default {
   name: 'app',
-
+  beforeMount() {
+    // 统一加载开场和404需要的动画资源
+    const tm = document.createElement('script')
+    tm.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"
+    document.head.append(tm)
+    tm.addEventListener('load', () => {
+      this.$store.commit('loadTW')
+    })
+  }
 }
 </script>
 
