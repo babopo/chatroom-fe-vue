@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 // websocket连接
 Vue.use(new VueSocketIO({
-  connection: "http://chat-vue.limbotech.top:8000/",
+  connection: "https://limbotech.top:8000/",
   vuex: {
     store,
     mutationPrefix: 'SOCKET_',
