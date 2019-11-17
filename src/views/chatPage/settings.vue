@@ -10,7 +10,7 @@
                 name='avatar'
                 :show-file-list="false"
                 :on-success="uploadSuccess"
-                action="http://chat-vue.limbotech.top:8000/api/settings/upload">
+                action="https://limbotech.top:8000/api/settings/upload">
                 <i class="el-icon-upload2"></i>
             </el-upload>
             <p class='tips'>右侧拖拽或点击上传,图片将被自动裁剪至合适大小</p>
@@ -24,7 +24,7 @@
             </el-form-item>
             <el-form-item label="确认新密码" prop="checkPass">
                 <el-input type="password" v-model="Settings.checkPass" :show-password="true"></el-input>
-            </el-form-item>
+            </el-form-item>s
             <el-form-item label="新邮箱" prop="email">
                 <el-input v-model="Settings.email"></el-input>
             </el-form-item>
